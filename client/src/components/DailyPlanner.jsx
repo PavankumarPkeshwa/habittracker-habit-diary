@@ -37,6 +37,16 @@ const DailyPlanner = () => {
         } catch (err) {
             console.error('Error fetching habits:', err);
             setLoading(false);
+
+            // Check if server is not running
+            if (err.code === 'ERR_NETWORK' || err.message.includes('Network Error')) {
+                alert('❌ Server Error: Backend server is not running!\n\nPlease start the server:\n1. Open terminal\n2. cd server\n3. npm run dev');
+            } else if (err.response) {
+                // Server responded with error
+                alert(`❌ Database Error: ${err.response.data.message || 'Failed to fetch habits from database'}`);
+            } else {
+                alert('❌ Error: Unable to connect to the server. Please check if the backend is running.');
+            }
         }
     };
 
@@ -46,6 +56,11 @@ const DailyPlanner = () => {
             setHabits(habits.map(h => h._id === id ? res.data : h));
         } catch (err) {
             console.error('Error toggling habit:', err);
+            if (err.code === 'ERR_NETWORK') {
+                alert('❌ Server not running! Please start the backend server.');
+            } else {
+                alert('❌ Failed to update habit. Please try again.');
+            }
         }
     };
 
@@ -55,6 +70,11 @@ const DailyPlanner = () => {
             setHabits(habits.map(h => h._id === id ? res.data : h));
         } catch (err) {
             console.error('Error logging screen time:', err);
+            if (err.code === 'ERR_NETWORK') {
+                alert('❌ Server not running! Please start the backend server.');
+            } else {
+                alert('❌ Failed to log screen time. Please try again.');
+            }
         }
     };
 
@@ -128,8 +148,8 @@ const DailyPlanner = () => {
                         key={cat.value}
                         onClick={() => setSelectedCategory(cat.value)}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === cat.value
-                                ? 'bg-indigo-600 text-white'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
                         {cat.label}

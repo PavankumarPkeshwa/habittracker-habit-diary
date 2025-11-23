@@ -62,7 +62,13 @@ const EditHabit = ({ isOpen, onClose, habit, onHabitUpdated }) => {
             onClose();
         } catch (err) {
             console.error('Error updating habit:', err);
-            alert('Failed to update habit. Please try again.');
+            if (err.code === 'ERR_NETWORK') {
+                alert('❌ Server Error: Backend server is not running!');
+            } else if (err.response) {
+                alert(`❌ Failed to update habit: ${err.response.data.message || 'Database error'}`);
+            } else {
+                alert('❌ Failed to update habit. Please try again.');
+            }
         }
     };
 

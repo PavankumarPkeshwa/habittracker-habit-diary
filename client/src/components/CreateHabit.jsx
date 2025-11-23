@@ -62,6 +62,13 @@ const CreateHabit = ({ isOpen, onClose, onHabitCreated, preselectedCategory = 'c
             setScreenTimeGoal(120);
         } catch (err) {
             console.error('Error creating habit:', err);
+            if (err.code === 'ERR_NETWORK') {
+                alert('❌ Server Error: Backend server is not running!\n\nPlease start the server:\n1. Open terminal\n2. cd server\n3. npm run dev');
+            } else if (err.response) {
+                alert(`❌ Failed to create habit: ${err.response.data.message || 'Database error'}`);
+            } else {
+                alert('❌ Failed to create habit. Please check your connection and try again.');
+            }
         }
     };
 
