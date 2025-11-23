@@ -5,6 +5,7 @@ import CreateHabit from './CreateHabit';
 import EditHabit from './EditHabit';
 import { Plus, Filter } from 'lucide-react';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 const CATEGORIES = [
     { value: 'all', label: 'All Habits' },
@@ -31,7 +32,7 @@ const DailyPlanner = () => {
 
     const fetchHabits = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/habits');
+            const res = await axios.get(`${API_URL}/api/habits`);
             setHabits(res.data);
             setLoading(false);
         } catch (err) {
@@ -52,7 +53,7 @@ const DailyPlanner = () => {
 
     const toggleHabit = async (id) => {
         try {
-            const res = await axios.post(`http://localhost:5000/api/habits/${id}/toggle`);
+            const res = await axios.post(`${API_URL}/api/habits/${id}/toggle`);
             setHabits(habits.map(h => h._id === id ? res.data : h));
         } catch (err) {
             console.error('Error toggling habit:', err);
@@ -66,7 +67,7 @@ const DailyPlanner = () => {
 
     const logScreenTime = async (id, minutes) => {
         try {
-            const res = await axios.post(`http://localhost:5000/api/habits/${id}/screentime`, { minutes });
+            const res = await axios.post(`${API_URL}/api/habits/${id}/screentime`, { minutes });
             setHabits(habits.map(h => h._id === id ? res.data : h));
         } catch (err) {
             console.error('Error logging screen time:', err);
@@ -80,7 +81,7 @@ const DailyPlanner = () => {
 
     const deleteHabit = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/habits/${id}`);
+            await axios.delete(`${API_URL}/api/habits/${id}`);
             setHabits(habits.filter(h => h._id !== id));
         } catch (err) {
             console.error('Error deleting habit:', err);

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Trophy, Calendar, ArrowRight, Zap, Heart, CheckCircle } from 'lucide-react';
 import axios from 'axios';
+import { Trophy, Users, Calendar, Plus, ArrowRight, Zap, Heart, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 const CHALLENGE_ICONS = {
     confidence: Heart,
@@ -19,7 +20,7 @@ const ChallengeCard = ({ challenge, onJoin }) => {
         try {
             // Create habits for this challenge
             for (const habitName of challenge.habits) {
-                await axios.post('http://localhost:5000/api/habits', {
+                await axios.post(`${API_URL}/api/habits`, {
                     name: habitName,
                     description: `Part of ${challenge.title}`,
                     icon: 'CheckCircle',
@@ -45,8 +46,8 @@ const ChallengeCard = ({ challenge, onJoin }) => {
         >
             <div className="flex items-start justify-between mb-4">
                 <div className={`p-3 rounded-xl ${challenge.type === 'confidence' ? 'bg-purple-100 text-purple-600' :
-                        challenge.type === 'energy' ? 'bg-orange-100 text-orange-600' :
-                            'bg-blue-100 text-blue-600'
+                    challenge.type === 'energy' ? 'bg-orange-100 text-orange-600' :
+                        'bg-blue-100 text-blue-600'
                     }`}>
                     <IconComponent size={24} />
                 </div>
@@ -84,8 +85,8 @@ const ChallengeCard = ({ challenge, onJoin }) => {
                 onClick={handleJoinChallenge}
                 disabled={isJoining}
                 className={`w-full py-2 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 group ${isJoining
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
                     }`}
             >
                 {isJoining ? 'Joining...' : 'Join Challenge'}

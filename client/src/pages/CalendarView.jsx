@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 
 const CalendarView = () => {
     const [habits, setHabits] = useState([]);
@@ -14,7 +15,7 @@ const CalendarView = () => {
 
     const fetchHabits = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/habits');
+            const res = await axios.get(`${API_URL}/api/habits`);
             setHabits(res.data);
             setLoading(false);
         } catch (err) {
@@ -73,10 +74,10 @@ const CalendarView = () => {
                 key={day}
                 whileHover={{ scale: 1.05 }}
                 className={`aspect-square p-2 rounded-lg border transition-all ${isToday
-                        ? 'border-indigo-500 bg-indigo-50'
-                        : completionCount > 0
-                            ? 'border-green-200 bg-green-50'
-                            : 'border-gray-100 bg-white'
+                    ? 'border-indigo-500 bg-indigo-50'
+                    : completionCount > 0
+                        ? 'border-green-200 bg-green-50'
+                        : 'border-gray-100 bg-white'
                     }`}
             >
                 <div className="text-sm font-medium text-gray-700">{day}</div>

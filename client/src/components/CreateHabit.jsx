@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { X, CheckCircle, Zap, Book, Heart, Sun, Moon, Smartphone, Youtube, Instagram, Clock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import API_URL from '../config';
 
 const ICONS = [
     { name: 'CheckCircle', component: CheckCircle },
@@ -42,7 +43,7 @@ const CreateHabit = ({ isOpen, onClose, onHabitCreated, preselectedCategory = 'c
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/habits', {
+            const res = await axios.post(`${API_URL}/api/habits`, {
                 name,
                 description,
                 icon: selectedIcon,

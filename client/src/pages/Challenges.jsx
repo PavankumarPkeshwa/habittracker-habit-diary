@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChallengeCard from '../components/ChallengeCard';
+import API_URL from '../config';
 
 const Challenges = () => {
     const [challenges, setChallenges] = useState([]);
@@ -12,7 +13,7 @@ const Challenges = () => {
 
     const fetchChallenges = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/challenges');
+            const res = await axios.get(`${API_URL}/api/challenges`);
             setChallenges(res.data);
             setLoading(false);
         } catch (err) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProgressChart from '../components/ProgressChart';
+import API_URL from '../config';
 import { Award, TrendingUp, Calendar } from 'lucide-react';
 
 const Stats = () => {
@@ -13,7 +14,7 @@ const Stats = () => {
 
     const fetchHabits = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/habits');
+            const res = await axios.get(`${API_URL}/api/habits`);
             setHabits(res.data);
             setLoading(false);
         } catch (err) {
